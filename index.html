@@ -5,6 +5,7 @@
     <link rel="shortcut icon" type="x-icon" href="admaa.png">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Merchant Acquiring Form</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <style>
         :root {
             --primary: #3498db;
@@ -16,59 +17,102 @@
             --success: #2ecc71;
             --border: #ddd;
             --shadow: 0 4px 15px rgba(0,0,0,0.1);
+            /* Theme Variables */
+            --bg-color: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            --form-bg: white;
+            --text-color: #333;
+            --section-bg: #f9fafb;
+            --section-border: #f9fafb;
+            --input-bg: white;
+            --input-border: var(--border);
         }
-        
+
+        /* --- Dark Theme Definitions --- */
+        body.dark-theme {
+            --bg-color: #2c3e50; /* Dark Blue/Gray Background */
+            --form-bg: #34495e; /* Slightly Lighter Dark Form */
+            --text-color: #ecf0f1; /* Light Text */
+            --section-bg: #293a4a;
+            --section-border: #4a637d;
+            --input-bg: #4c6883;
+            --input-border: #5a748c;
+            --border: #5a748c;
+            --gray: #bdc3c7;
+        }
+
         * {
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: var(--bg-color);
             margin: 0;
             padding: 20px;
-            color: #333;
+            color: var(--text-color);
             min-height: 100vh;
+            transition: background 0.3s, color 0.3s;
         }
-        
+
         .container {
             max-width: 900px;
             margin: 0 auto;
-            background-color: white;
+            background-color: var(--form-bg);
             padding: 30px;
             border-radius: 12px;
             box-shadow: var(--shadow);
+            transition: background-color 0.3s, box-shadow 0.3s;
         }
-        
+
         .header {
             text-align: center;
             margin-bottom: 30px;
             padding-bottom: 20px;
             border-bottom: 2px solid var(--light);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        
+
         h1 {
             color: var(--secondary);
             margin-bottom: 10px;
             font-weight: 700;
             font-size: 2.2rem;
+            transition: color 0.3s;
         }
         
+        body.dark-theme h1 {
+             color: var(--light);
+        }
+
         .subtitle {
             color: var(--gray);
             font-size: 1rem;
             margin-top: 0;
+            transition: color 0.3s;
         }
-        
+
         .section {
             margin-bottom: 30px;
             padding: 25px;
             border-radius: 8px;
-            background-color: #f9fafb;
+            background-color: var(--section-bg);
             box-shadow: 0 2px 5px rgba(0,0,0,0.05);
             border-left: 4px solid var(--primary);
+            transition: background-color 0.3s;
         }
         
+        .employee-section {
+            background-color: #e8f4fd;
+            border-left-color: #1e88e5;
+        }
+        
+        body.dark-theme .employee-section {
+            background-color: #293a4a;
+            border-left-color: #1e88e5;
+        }
+
         .section-title {
             font-weight: 600;
             margin-bottom: 20px;
@@ -76,45 +120,53 @@
             font-size: 1.3em;
             display: flex;
             align-items: center;
+            transition: color 0.3s;
         }
         
+        body.dark-theme .section-title {
+             color: var(--light);
+        }
+
         .section-title i {
             margin-right: 10px;
             color: var(--primary);
         }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
+
+        /* --- Input and Form Group Styles --- */
         label {
             display: block;
             margin-bottom: 8px;
             font-weight: 500;
             color: var(--secondary);
+            transition: color 0.3s;
         }
         
-        input[type="text"],
-        input[type="date"],
-        input[type="email"],
-        input[type="tel"],
-        input[type="password"],
-        select {
+        body.dark-theme label {
+             color: var(--gray);
+        }
+
+        input[type="text"], input[type="date"], input[type="email"], input[type="tel"], input[type="password"], select, textarea, input[type="number"] {
             width: 100%;
             padding: 14px 15px;
-            border: 1px solid var(--border);
+            border: 1px solid var(--input-border);
             border-radius: 6px;
             font-size: 15px;
             transition: all 0.3s;
-            background-color: white;
+            background-color: var(--input-bg);
+            color: var(--text-color);
         }
         
-        input:focus, select:focus {
+        body.dark-theme input, body.dark-theme select, body.dark-theme textarea {
+            color: var(--light);
+        }
+
+        input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
         }
-        
+
+        /* ... (Rest of existing form styles like .row, .col, .submit-btn) ... */
         .row {
             display: flex;
             flex-wrap: wrap;
@@ -126,112 +178,70 @@
             padding: 0 10px;
             min-width: 200px;
         }
-        
-        .submit-btn {
-            background: linear-gradient(to right, var(--primary), var(--primary-dark));
-            color: white;
-            padding: 16px 20px;
+
+        /* --- Theme Toggle Button --- */
+        #theme-toggle {
+            background-color: var(--secondary);
+            color: var(--light);
             border: none;
+            padding: 8px 15px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            width: 100%;
-            margin-top: 20px;
-            transition: all 0.3s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-size: 14px;
+            font-weight: 500;
+            margin-top: 15px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #theme-toggle:hover {
+            background-color: var(--primary-dark);
+        }
+
+        /* --- Dynamic QR Type Group Styles --- */
+        .qr-item-row {
             display: flex;
-            justify-content: center;
             align-items: center;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px dashed var(--light);
         }
         
-        .submit-btn:hover {
-            background: linear-gradient(to right, var(--primary-dark), var(--primary));
-            transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        body.dark-theme .qr-item-row {
+            border-bottom: 1px dashed #444;
         }
         
-        .submit-btn:active {
-            transform: translateY(0);
+        .qr-item-row:last-child {
+            border-bottom: none;
         }
-        
-        .footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 13px;
-            color: var(--gray);
-            line-height: 1.6;
-            padding-top: 20px;
-            border-top: 1px solid var(--light);
-        }
-        
-        .required::after {
-            content: " *";
-            color: var(--accent);
-        }
-        
-        .password-container {
-            position: relative;
-        }
-        
-        .toggle-password {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
+
+        .qr-item-label {
+            display: flex;
+            align-items: center;
             cursor: pointer;
-            color: var(--gray);
-            font-size: 18px;
+            font-weight: 400;
+            color: var(--secondary);
+            flex-grow: 1;
         }
         
-        .toggle-password:focus {
-            outline: none;
+        body.dark-theme .qr-item-label {
+             color: var(--gray);
         }
         
-        .file-input {
-            padding: 15px;
-            background-color: #f8f9fa;
-            border: 2px dashed #ced4da;
-            border-radius: 6px;
+        .qr-item-row input[type="checkbox"] {
+            margin-right: 10px;
+            width: auto;
+            transform: scale(1.1);
+        }
+
+        .qty-input {
+            width: 80px !important; /* Make sure it doesn't take full width */
+            padding: 8px 10px !important;
+            margin-left: 20px;
             text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
         }
-        
-        .file-input:hover {
-            background-color: #e9ecef;
-            border-color: var(--primary);
-        }
-        
-        .form-note {
-            font-size: 12px;
-            color: var(--gray);
-            margin-top: 5px;
-            font-style: italic;
-        }
-        
-        .progress-bar {
-            height: 5px;
-            background-color: var(--light);
-            border-radius: 3px;
-            margin-top: 10px;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background-color: var(--success);
-            width: 0%;
-            transition: width 0.3s;
-        }
-        
-        .employee-section {
-            background-color: #e8f4fd;
-            border-left-color: #1e88e5;
-        }
-        
+        /* End of Dynamic QR Group Styles */
+
+
         @media (max-width: 768px) {
             .container {
                 padding: 20px;
@@ -245,19 +255,10 @@
             h1 {
                 font-size: 1.8rem;
             }
-        }
-        
-        .form-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-        
-        .logo {
-            font-weight: bold;
-            color: var(--primary);
-            font-size: 1.5rem;
+            
+            #theme-toggle {
+                margin-top: 10px;
+            }
         }
     </style>
 </head>
@@ -265,7 +266,7 @@
     <div class="container">
         <div class="form-header">
             <div class="logo">ADMAA</div>
-            <div class="subtitle">Merchant Acquiring Service</div>
+            <button id="theme-toggle">Toggle Theme (White)</button>
         </div>
         
         <div class="header">
@@ -274,10 +275,9 @@
         </div>
         
         <form id="merchantForm">
-            <!-- Employee Information Section -->
             <div class="section employee-section">
                 <div class="section-title">
-                    <i></i> EMPLOYEE INFORMATION
+                    <i class="fas fa-user-tie"></i> EMPLOYEE INFORMATION
                 </div>
                 
                 <div class="form-group">
@@ -286,10 +286,9 @@
                 </div>
             </div>
             
-            <!-- Merchant Information Section -->
             <div class="section">
                 <div class="section-title">
-                    <i></i> MERCHANT INFORMATION
+                    <i class="fas fa-store"></i> MERCHANT INFORMATION
                 </div>
                 
                 <div class="form-group">
@@ -327,6 +326,16 @@
                     <input type="text" id="roadName" name="roadName">
                 </div>
                 
+                <div class="form-group">
+                    <label>Full Address / Location Coordinates</label>
+                    <div class="location-picker">
+                        <input type="text" id="fullAddress" name="fullAddress" placeholder="Enter full address or click to get location">
+                        <button type="button" class="location-btn" id="getLocationBtn">📍 Get Current Location</button>
+                    </div>
+                    <input type="hidden" id="latitude" name="latitude">
+                    <input type="hidden" id="longitude" name="longitude">
+                    <div class="form-note" id="locationStatus">Click "Get Current Location" to attach coordinates for parcel delivery.</div>
+                </div>
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
@@ -372,10 +381,9 @@
                 </div>
             </div>
             
-            <!-- Owner Information Section -->
             <div class="section">
                 <div class="section-title">
-                    <i></i> OWNER INFORMATION
+                    <i class="fas fa-id-card"></i> OWNER INFORMATION
                 </div>
                 
                 <div class="form-group">
@@ -432,10 +440,9 @@
                 </div>
             </div>
             
-            <!-- Merchant Personal Information Section -->
             <div class="section">
                 <div class="section-title">
-                    <i></i> MERCHANT PERSONAL INFORMATION
+                    <i class="fas fa-truck"></i> MERCHANT PERSONAL INFORMATION
                 </div>
                 
                 <div class="row">
@@ -469,10 +476,9 @@
                 </div>
             </div>
             
-            <!-- Bank Details Section -->
             <div class="section">
                 <div class="section-title">
-                    <i></i> BANK DETAILS
+                    <i class="fas fa-bank"></i> BANK DETAILS
                 </div>
                 
                 <div class="form-group">
@@ -522,10 +528,9 @@
                 </div>
             </div>
             
-            <!-- Business Information Section -->
             <div class="section">
                 <div class="section-title">
-                    <i></i> BUSINESS INFORMATION
+                    <i class="fas fa-briefcase"></i> BUSINESS INFORMATION
                 </div>
                 
                 <div class="row">
@@ -566,62 +571,120 @@
                 </div>
                 
                 <div class="form-group">
-                    <label>QR Type</label>
-                    <select id="qrType" name="qrType">
-                        <option value="">Select QR Type</option>
-                        <option value="fiber">Fiber</option>
-                        <option value="acrylic">Acrylic Sandwich</option>
-                        <option value="small">Small Sticker</option>
-                        <option value="large">Large Sticker</option>
-                        <option value="badge">Badge</option>
-                        <option value="ttop">T-Top</option>
-                    </select>
+                    <label class="required">QR Type (Select one or more)</label>
+                    <div class="checkbox-group" id="qrTypeGroup">
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="fiber" onchange="toggleQuantityInput(this, 'qty-fiber')">Fiber
+                            </label>
+                            <input type="number" id="qty-fiber" name="qty-fiber" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="acrylic" onchange="toggleQuantityInput(this, 'qty-acrylic')">Acrylic Sandwich
+                            </label>
+                            <input type="number" id="qty-acrylic" name="qty-acrylic" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="small" onchange="toggleQuantityInput(this, 'qty-small')">Small Sticker
+                            </label>
+                            <input type="number" id="qty-small" name="qty-small" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="large" onchange="toggleQuantityInput(this, 'qty-large')">Large Sticker
+                            </label>
+                            <input type="number" id="qty-large" name="qty-large" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="badge" onchange="toggleQuantityInput(this, 'qty-badge')">Badge
+                            </label>
+                            <input type="number" id="qty-badge" name="qty-badge" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="ttop" onchange="toggleQuantityInput(this, 'qty-ttop')">T-Top
+                            </label>
+                            <input type="number" id="qty-ttop" name="qty-ttop" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="yellow_fiber" onchange="toggleQuantityInput(this, 'qty-yellow_fiber')">Yellow Fiber
+                            </label>
+                            <input type="number" id="qty-yellow_fiber" name="qty-yellow_fiber" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                        <div class="qr-item-row">
+                            <label class="qr-item-label">
+                                <input type="checkbox" name="qrType" value="acrylic_table_top" onchange="toggleQuantityInput(this, 'qty-acrylic_table_top')">Acrylic Table Top
+                            </label>
+                            <input type="number" id="qty-acrylic_table_top" name="qty-acrylic_table_top" class="qty-input" placeholder="Qty" min="1" style="display: none;">
+                        </div>
+                        
+                    </div>
                 </div>
-                
-                <div class="form-group">
-                    <label>Quantity</label>
-                    <input type="text" id="quantity" name="quantity">
                 </div>
-            </div>
             
-            <!-- Documents Section -->
             <div class="section">
                 <div class="section-title">
-                    <i></i> DOCUMENTS REQUIRED
+                    <i class="fas fa-file-alt"></i> DOCUMENTS REQUIRED
                 </div>
                 
                 <div class="form-group">
                     <label class="required">Shop Picture</label>
                     <div class="file-input">
-                        <input type="file" id="shopPicture" name="shopPicture" required style="width: 100%;">
+                        <input type="file" id="shopPicture" name="shopPicture" accept="image/*" required style="width: 100%;">
                     </div>
-                    <div class="form-note">Upload a clear picture of your shop/storefront</div>
+                    <div class="form-note">Upload a clear picture of your shop/storefront.</div>
                 </div>
                 
-                <div class="form-group">
-                    <label class="required">CNIC (Front/Back)</label>
-                    <div class="file-input">
-                        <input type="file" id="cnicPicture" name="cnicPicture" required style="width: 100%;">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label class="required">CNIC Picture (Front Side)</label>
+                            <div class="file-input">
+                                <input type="file" id="cnicPictureFront" name="cnicPictureFront" accept="image/*" required style="width: 100%;">
+                            </div>
+                            <div class="form-note">Upload the front side of the CNIC.</div>
+                        </div>
                     </div>
-                    <div class="form-note">Upload both front and back of your CNIC in a single file or separate files</div>
-                </div>
-                
-                <div class="form-group">
-                    <label class="required">QR Code</label>
-                    <div class="file-input">
-                        <input type="file" id="qrCode" name="qrCode" required style="width: 100%;">
+                    <div class="col">
+                           <div class="form-group">
+                                <label class="required">CNIC Picture (Back Side)</label>
+                                <div class="file-input">
+                                    <input type="file" id="cnicPictureBack" name="cnicPictureBack" accept="image/*" required style="width: 100%;">
+                                </div>
+                                <div class="form-note">Upload the back side of the CNIC.</div>
+                            </div>
                     </div>
-                    <div class="form-note">Upload your QR code image</div>
                 </div>
+                <div class="form-group">
+                    <label>QR Code Picture (Optional)</label>
+                    <div class="file-input">
+                        <input type="file" id="qrCode" name="qrCode" accept="image/*" style="width: 100%;">
+                    </div>
+                    <div class="form-note">Upload your QR code image if available.</div>
+                </div>
+
+                <div class="progress-bar" id="progressBarContainer">
+                    <div class="progress" id="progressBar"></div>
+                </div>
+
             </div>
             
-            <!-- Submit Button -->
-            <button type="submit" class="submit-btn">
+            <button type="submit" class="submit-btn" id="submitBtn">
                 <span>Submit Form</span>
             </button>
         </form>
         
-        <!-- Footer -->
         <div class="footer">
             <p>Enabled by:<br>
             ADMAA Retail Enablement Service (Pvt.) Ltd.<br>
@@ -633,92 +696,228 @@
 
     <script>
         // Store your N8N Webhook URL here
-        const WEBHOOK_URL = 'https://noral.gleeze.com/webhook-test/merchant-form'; 
+        const WEBHOOK_URL = 'https://noral.gleeze.com/webhook-test/merchant-form';
+        const MAX_IMAGE_SIZE_MB = 1; // Target max size for compression
+        const COMPRESSION_QUALITY = 0.7; // 70% quality for compression
 
-        document.getElementById('merchantForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Basic validation (kept the same logic)
-            const requiredFields = document.querySelectorAll('[required]');
-            let isValid = true;
-            
-            requiredFields.forEach(field => {
-                if (!field.value.trim() && field.type !== 'file') {
-                    isValid = false;
-                    field.style.borderColor = '#e74c3c';
-                } else if (field.type === 'file' && field.files.length === 0) {
-                    isValid = false;
-                    field.closest('.file-input').style.borderColor = '#e74c3c';
-                } else {
-                    field.style.borderColor = '#ddd';
-                    const fileInputContainer = field.closest('.file-input');
-                    if (fileInputContainer) fileInputContainer.style.borderColor = '#ced4da';
-                }
-            });
-            
-            if (!isValid) {
-                alert('Please fill in all required fields.');
-                return;
-            }
-            
-            // FIX: Create the FormData object, which now works because 
-            // all fields have a 'name' attribute. This object correctly 
-            // bundles text and binary file data into a multipart format.
-            const formData = new FormData(this);
-            
-            // Send data to n8n webhook
-            fetch(WEBHOOK_URL, {
-                method: 'POST',
-                // 🛑 IMPORTANT FIX: We REMOVE the 'Content-Type': 'application/json' header.
-                // The browser will automatically set the correct 'multipart/form-data' 
-                // Content-Type when sending a FormData object.
-                body: formData // FIX: Send the FormData object directly
-            })
-            .then(response => {
-                if (response.ok) {
-                    alert('Form submitted successfully!');
-                    document.getElementById('merchantForm').reset();
-                } else {
-                    alert('There was an error submitting the form. Please check your n8n workflow and try again.');
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('A network error occurred. Please check your connection.');
+        // --- Theme Toggle Functionality ---
+        document.addEventListener('DOMContentLoaded', () => {
+            const themeToggleBtn = document.getElementById('theme-toggle');
+            const body = document.body;
+
+            // Set initial state based on class (assuming default is light)
+            body.classList.add('light-theme'); 
+            themeToggleBtn.textContent = 'Toggle Theme (White)';
+
+            themeToggleBtn.addEventListener('click', () => {
+                body.classList.toggle('dark-theme');
+                const isDark = body.classList.contains('dark-theme');
+                body.classList.toggle('light-theme', !isDark);
+                themeToggleBtn.textContent = isDark ? 'Toggle Theme (Black)' : 'Toggle Theme (White)';
             });
         });
-        
-        // Show/hide other bank field
+
+        // --- Dynamic QR Quantity Input Logic ---
+        function toggleQuantityInput(checkbox, quantityInputId) {
+            const quantityInput = document.getElementById(quantityInputId);
+            if (checkbox.checked) {
+                quantityInput.style.display = 'inline-block';
+                quantityInput.value = '1'; // Default to 1
+                quantityInput.required = true;
+                quantityInput.focus();
+            } else {
+                quantityInput.style.display = 'none';
+                quantityInput.value = '';
+                quantityInput.required = false;
+            }
+        }
+
+        // --- Other Dynamic Form Logic ---
         document.getElementById('bankName').addEventListener('change', function() {
             const otherBankContainer = document.getElementById('otherBankContainer');
             if (this.value === 'other') {
                 otherBankContainer.style.display = 'block';
+                document.getElementById('otherBank').required = true;
             } else {
                 otherBankContainer.style.display = 'none';
+                document.getElementById('otherBank').required = false;
             }
         });
-        
-        // Show/hide other business type field
+
         document.getElementById('businessType').addEventListener('change', function() {
             const otherBusinessContainer = document.getElementById('otherBusinessContainer');
             if (this.value === 'other') {
                 otherBusinessContainer.style.display = 'block';
+                document.getElementById('otherBusiness').required = true;
             } else {
                 otherBusinessContainer.style.display = 'none';
+                document.getElementById('otherBusiness').required = false;
             }
         });
-        
-        // Toggle CNIC visibility
+
         document.getElementById('toggleCnic').addEventListener('click', function() {
             const cnicInput = document.getElementById('cnic');
-            if (cnicInput.type === 'password') {
-                cnicInput.type = 'text';
-                this.textContent = '🙈';
+            const type = cnicInput.getAttribute('type') === 'password' ? 'text' : 'password';
+            cnicInput.setAttribute('type', type);
+            this.textContent = type === 'password' ? '👁️' : '🔒';
+        });
+
+
+        // A minimal image compression function using Canvas (simulating Compressor.js logic)
+        function compressImage(file, quality, maxSizeMB) {
+            return new Promise((resolve) => {
+                if (!file || !file.type.startsWith('image/')) {
+                    resolve(file); // Resolve non-images immediately or if file is null/undefined
+                    return;
+                }
+                
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+
+                        canvas.toBlob((blob) => {
+                            if (!blob) {
+                                console.error('Canvas to Blob failed. Using original file.');
+                                resolve(file);
+                                return;
+                            }
+                            
+                            // Convert Blob back to File with original name
+                            const compressedFile = new File([blob], file.name, {
+                                type: blob.type,
+                                lastModified: Date.now(),
+                            });
+                            resolve(compressedFile);
+                        }, file.type, quality);
+                    };
+                    img.onerror = () => resolve(file); // Fallback on image load error
+                };
+                reader.onerror = () => resolve(file); // Fallback on file read error
+            });
+        }
+
+        // --- Geo-Location Logic ---
+        document.getElementById('getLocationBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            const statusDiv = document.getElementById('locationStatus');
+            const latInput = document.getElementById('latitude');
+            const longInput = document.getElementById('longitude');
+            const addressInput = document.getElementById('fullAddress');
+            
+            statusDiv.textContent = 'Fetching location...';
+            this.disabled = true;
+
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const lat = position.coords.latitude;
+                        const lon = position.coords.longitude;
+                        
+                        latInput.value = lat;
+                        longInput.value = lon;
+                        addressInput.value = `Location: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+                        statusDiv.textContent = `Location Attached: ${lat.toFixed(6)}, ${lon.toFixed(6)}`;
+                        this.disabled = false;
+                    },
+                    (error) => {
+                        statusDiv.textContent = 'Error: Location access denied or unavailable.';
+                        console.error("Geolocation Error:", error);
+                        this.disabled = false;
+                    },
+                    { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+                );
             } else {
-                cnicInput.type = 'password';
-                this.textContent = '👁️';
+                statusDiv.textContent = 'Error: Geolocation is not supported by this browser.';
+                this.disabled = false;
+            }
+        });
+
+        // --- Form Submission Logic ---
+        document.getElementById('merchantForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const progressBarContainer = document.getElementById('progressBarContainer');
+            const progressBar = document.getElementById('progressBar');
+            
+            submitBtn.disabled = true;
+            submitBtn.querySelector('span').textContent = 'Submitting...';
+            progressBarContainer.style.display = 'block';
+            progressBar.style.width = '10%';
+
+            try {
+                const formData = new FormData(this);
+                const filesToCompress = ['shopPicture', 'cnicPictureFront', 'cnicPictureBack', 'qrCode'];
+                const compressedFiles = {};
+
+                // 1. Compress Files
+                let fileCount = 0;
+                for (const fieldName of filesToCompress) {
+                    const input = document.getElementById(fieldName);
+                    if (input.files.length > 0) {
+                        const originalFile = input.files[0];
+                        progressBar.style.width = `${10 + (fileCount * 15)}%`; // Update progress
+                        
+                        const compressedFile = await compressImage(originalFile, COMPRESSION_QUALITY, MAX_IMAGE_SIZE_MB);
+                        compressedFiles[fieldName] = compressedFile;
+
+                        // Replace original file data in formData with compressed file
+                        formData.set(fieldName, compressedFile);
+                        fileCount++;
+                    } else {
+                         // Handle required files not being present (if logic allows this path)
+                         if(input.required) {
+                              throw new Error(`${fieldName} is required.`);
+                         }
+                         formData.delete(fieldName);
+                    }
+                }
+                progressBar.style.width = '80%';
+
+                // 2. Prepare Data (optional: log or modify structure)
+                // Remove quantity fields that were left unchecked (and are now empty/hidden)
+                for (const key of Array.from(formData.keys())) {
+                    if (key.startsWith('qty-') && !formData.get(key)) {
+                        formData.delete(key);
+                    }
+                }
+                
+                // 3. Send to Webhook (N8N)
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    body: formData,
+                });
+                
+                progressBar.style.width = '100%';
+
+                if (response.ok) {
+                    alert('Form submitted successfully!');
+                    this.reset(); // Clear the form
+                    progressBarContainer.style.display = 'none';
+                } else {
+                    const errorData = await response.text();
+                    alert(`Submission failed. Server responded with: ${response.status} - ${errorData}`);
+                }
+
+            } catch (error) {
+                console.error("Submission Error:", error);
+                alert(`An unexpected error occurred: ${error.message}`);
+                progressBarContainer.style.display = 'none';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.querySelector('span').textContent = 'Submit Form';
             }
         });
     </script>
+
 </body>
 </html>
